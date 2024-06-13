@@ -2,7 +2,7 @@
 // Copyright contributors to the kepler.gl project
 
 import {css} from 'styled-components';
-import {DIMENSIONS} from '@kepler.gl/constants';
+// import {DIMENSIONS} from '@kepler.gl/constants';
 
 type InputProps = {
   active: boolean;
@@ -1112,7 +1112,7 @@ export const modalScrollBar = css`
 `;
 
 export const theme = {
-  ...DIMENSIONS,
+  // ...DIMENSIONS,
   // templates
   input,
   inputLT,

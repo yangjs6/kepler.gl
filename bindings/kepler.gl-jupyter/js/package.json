@@ -23,7 +23,7 @@
     "babel/**"
   ],
   "scripts": {
-    "start": "NODE_ENV=development webpack --config ./webpack/dev.js --mode development --watch --progress",
+    "start": "set NODE_ENV=development webpack --config ./webpack/dev.js --mode development --watch --progress",
     "clean": "rimraf dist/ && rimraf ../keplergl/static/",
     "cleanall": "npm run clean && rimraf node_modules/",
     "prepublish": "yarn build && yarn build:lab",

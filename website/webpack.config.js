@@ -13,7 +13,16 @@ const SRC_DIR = resolve(LIB_DIR, './src');
 const console = require('global/console');
 
 const BABEL_CONFIG = {
-  presets: ['@babel/preset-env', '@babel/preset-react', '@babel/preset-typescript'],
+  presets: [
+    [
+      '@babel/preset-env',
+      {
+        targets: {
+          esmodules: true, // 将目标环境设置为支持 ES 模块的环境
+        },
+      },
+    ],
+  ],
   plugins: [
     ['@babel/plugin-transform-typescript', {isTSX: true, allowDeclareFields: true}],
     '@babel/plugin-proposal-class-properties',
@@ -51,7 +60,7 @@ const COMMON_CONFIG = {
     rules: [
       {
         // Compile ES2015 using bable
-        test: /\.(js|jsx|ts|tsx)$/,
+        test: /\.(js|jsx|ts|tsx|mjs)$/,
         loader: 'babel-loader',
         options: BABEL_CONFIG,
         exclude: [/node_modules/]

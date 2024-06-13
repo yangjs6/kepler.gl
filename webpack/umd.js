@@ -1,6 +1,8 @@
 // SPDX-License-Identifier: MIT
 // Copyright contributors to the kepler.gl project
 
+const {RESOLVE_ALIASES} = require('./shared-webpack-configuration');
+
 const resolve = require('path').resolve;
 const join = require('path').join;
 
@@ -67,8 +69,9 @@ const LIBRARY_BUNDLE_CONFIG = env => ({
     }
   },
   resolve: {
-    extensions: ['.tsx', '.ts', '.js'],
-    modules: ['node_modules', SRC_DIR]
+    extensions: ['.tsx', '.ts', '.js', '.mjs'],
+    modules: ['node_modules', SRC_DIR],
+    alias: RESOLVE_ALIASES
   },
   module: {
     rules: [
@@ -76,6 +79,7 @@ const LIBRARY_BUNDLE_CONFIG = env => ({
         test: /\.(js|ts|tsx)$/,
         loader: 'babel-loader',
         include: [SRC_DIR],
+        exclude: /node_modules/,
         options: {
           plugins: [
             [
@@ -95,7 +99,7 @@ const LIBRARY_BUNDLE_CONFIG = env => ({
       // for compiling apache-arrow ESM module
       {
         test: /\.mjs$/,
-        include: /node_modules\/apache-arrow/,
+        include: /node_modules/,
         type: 'javascript/auto'
       }
     ]

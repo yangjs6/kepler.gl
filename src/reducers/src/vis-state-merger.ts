@@ -12,7 +12,7 @@ import {
   validateFiltersUpdateDatasets,
   findById
 } from '@kepler.gl/utils';
-import {getLayerOrderFromLayers} from '@kepler.gl/reducers';
+import {getLayerOrderFromLayers} from './layer-utils';
 
 import {LayerColumns, LayerColumn, Layer} from '@kepler.gl/layers';
 import {createEffect} from '@kepler.gl/effects';
