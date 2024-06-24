@@ -120,7 +120,7 @@ function makeLocalDevConfig(env, EXAMPLE_DIR = LIB_DIR, externals = {}) {
         // for compiling apache-arrow ESM module
         {
           test: /\.mjs$/,
-          include: /node_modules\/apache-arrow/,
+          include: /node_modules/,
           type: 'javascript/auto'
         }
       ]

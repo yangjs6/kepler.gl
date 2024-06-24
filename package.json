@@ -38,7 +38,6 @@
     "url": "https://github.com/keplergl/kepler.gl.git"
   },
   "scripts": {
-    "bootstrap": "PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true yarn",
     "bootstrap": "set PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true && yarn",
     "install:example": "set NODE_OPTIONS=--openssl-legacy-provider && cd examples/demo-app && yarn",
     "install:web": "yarn install:example && cd website && yarn",
