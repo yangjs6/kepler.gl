@@ -22,7 +22,7 @@ machine:
 
 * [Git](http://git-scm.com/): The [Github Guide to Installing Git][git-setup] is a good source of information.
 
-* [Node.js ^14.x](http://nodejs.org): We use Node to generate the documentation, run a
+* [Node.js ^18.x](http://nodejs.org): We use Node to generate the documentation, run a
   development web server, run tests, and generate distributable files. Depending on your system,
   you can install Node either from source or as a pre-packaged bundle.
 
@@ -82,7 +82,7 @@ npm run start:deck-src
 
 ## Running Tests
 
-- We write node and browser tests with [Tape][tape], [Enzyme][enzyme], [jsDom](https://www.npmjs.com/package/jsdom) and [@probe.gl/test-util](https://uber-web.github.io/probe.gl/docs/api-reference/test-utils/browser-driver), and lint with [ESLint][eslint]. Make sure to run test before submitting your PR. To run all of the tests once
+- We write node and browser tests with [Tape][tape], [Enzyme][enzyme], [jsDom](https://www.npmjs.com/package/jsdom) and [@probe.gl/test-util](https://uber-web.github.io/probe.gl/docs/modules/test-utils/browser-driver), and lint with [ESLint][eslint]. Make sure to run test before submitting your PR. To run all of the tests once
 
 ```bash
 yarn test

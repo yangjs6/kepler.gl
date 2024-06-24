@@ -154,6 +154,8 @@ export default {
     weightIntensity: 'Weight Intensity',
     zoomScale: 'Zoom Scale',
     heightRange: 'Height Range',
+    fixedHeight: 'Fixed height',
+    fixedHeightDescription: 'Use height without modifications',
     heightMultiplier: 'Height Multiplier',
     darkModeEnabled: 'Dark base map'
   },
@@ -202,6 +204,7 @@ export default {
     show: 'show',
     removeLayer: 'Remove layer',
     duplicateLayer: 'Duplicate layer',
+    zoomToLayer: 'Zoom to layer',
     resetAfterError: 'Try to enable the layer after an error',
     layerSettings: 'Layer settings',
     closePanel: 'Close current panel',
