@@ -411,6 +411,7 @@ export default {
   },
   color: {
     customPalette: '自定义调色板',
+    useColorPicker: '使用颜色选择器',
     steps: '步骤',
     type: '类型',
     reversed: '反转'

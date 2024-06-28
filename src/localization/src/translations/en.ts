@@ -462,6 +462,7 @@ export default {
   },
   color: {
     customPalette: 'Custom Palette',
+    useColorPicker: 'Use Color Picker',
     steps: 'steps',
     type: 'type',
     reversed: 'reversed',

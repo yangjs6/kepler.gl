@@ -4,7 +4,9 @@
 import React, {Component, createRef, MouseEvent, ComponentType} from 'react';
 import styled from 'styled-components';
 import {FormattedMessage} from 'react-intl';
-import {rgbToHex} from '@kepler.gl/utils';
+import {rgbToHex, hexToRgb} from '@kepler.gl/utils';
+import CustomPicker from './custom-picker';
+import Switch from '../../common/switch';
 import SingleColorPalette from './single-color-palette';
 import ColorRangeSelector from './color-range-selector';
 import ColorPalette from './color-palette';
@@ -72,6 +74,27 @@ export const ColorSelectorInput = styled.div<ColorSelectorInputProps>`
   }
 `;
 
+
+const StyledColorSingleSelector = styled.div.attrs({
+  className: 'color-single-selector'
+})`
+  padding: 12px 12px 0 12px;
+`;
+
+export const ColorPickerConfig = styled.div`
+  margin-bottom: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  .color-picker__config__label {
+    flex-grow: 1;
+  }
+  .color-picker__config__select {
+    flex-grow: 1;
+  }
+`;
+
+
 export const InputBoxContainer = styled.div`
   display: flex;
   justify-content: space-between;
@@ -93,6 +116,7 @@ function ColorSelectorFactory(RangeSlider): ComponentType<ColorSelectorProps> {
     };
 
     state = {
+      useColorPicker: false,
       showDropdown: false
     };
 
@@ -159,9 +183,27 @@ function ColorSelectorFactory(RangeSlider): ComponentType<ColorSelectorProps> {
         this.setState({showDropdown: i});
       }
     };
+        
+    _onPickerUpdate = (color: {hex: string}) => {
+      const rgbColor = hexToRgb(color.hex);      
+      const editing = this._getEditing();
+      const colorSet = typeof editing === 'number' && this.props.colorSets[editing];
+      if (colorSet) {
+        this._setColor(colorSet, rgbColor, colorSet.selectedColor[3]);
+      }
+    };
+    
+    _onMouseDown = (e, i) => {
+      if (this._getEditing() === false) {
+        this._showDropdown(e, i);
+      } else {
+        this._closePanelDropdown();
+      }
+    };
 
     render() {
       const {colorSets, useOpacity, disabled, inputTheme, colorUI} = this.props;
+      const {useColorPicker} = this.state;
 
       const editing = this._getEditing();
       const currentEditing =
@@ -177,7 +219,7 @@ function ColorSelectorFactory(RangeSlider): ComponentType<ColorSelectorProps> {
                   active={editing === i}
                   disabled={disabled}
                   inputTheme={inputTheme}
-                  onMouseDown={e => this._showDropdown(e, i)}
+                  onMouseDown={e => this._onMouseDown(e, i)}
                 >
                   {cSet.isRange ? (
                     <ColorPalette colors={(cSet.selectedColor as ColorRange).colors} />
@@ -204,10 +246,39 @@ function ColorSelectorFactory(RangeSlider): ComponentType<ColorSelectorProps> {
                   colorPaletteUI={colorUI as ColorUI}
                 />
               ) : (
-                <SingleColorPalette
-                  selectedColor={rgbToHex(colorSets[editing as number].selectedColor as RGBColor)}
-                  onSelectColor={this._onSelectColor}
-                />
+                
+                <StyledColorSingleSelector>
+                  <ColorPickerConfig className="color-picker__config">
+                    <div className="color-picker__config__label">
+                      <PanelLabel>
+                        <FormattedMessage id="color.useColorPicker" />
+                      </PanelLabel>
+                    </div>
+                    
+                    <div className="color-picker__config__select">                      
+                      <Switch
+                        checked={useColorPicker as boolean}
+                        id={`useColorPicker-toggle`}
+                        onChange={() => this.setState({useColorPicker: !useColorPicker})}
+                        secondary
+                      />
+                    </div>
+                  </ColorPickerConfig>
+
+                  {useColorPicker ? (                  
+                    <CustomPicker
+                      color={rgbToHex(colorSets[editing as number].selectedColor as RGBColor)}
+                      onChange={this._onPickerUpdate}
+                      onSwatchClose={()=>{}}
+                    />
+                  ) : (
+                    <SingleColorPalette
+                      selectedColor={rgbToHex(colorSets[editing as number].selectedColor as RGBColor)}
+                      onSelectColor={this._onSelectColor}
+                    />
+                  )}
+                </StyledColorSingleSelector>
+
               )}
               {useOpacity ? (
                 <OpacitySliderWrapper>
