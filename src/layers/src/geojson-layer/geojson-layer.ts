@@ -21,7 +21,7 @@ import Layer, {
 import {GeoJsonLayer as DeckGLGeoJsonLayer} from '@deck.gl/layers';
 import {getGeojsonLayerMeta, GeojsonDataMaps, DeckGlGeoTypes} from './geojson-utils';
 import {BrushingExtension} from '@deck.gl/extensions';
-import {getTextOffsetByRadius, formatTextLabelData} from '../layer-text-label';
+import {getTextOffsetByRadius} from '../layer-text-label';
 import {
   getGeojsonLayerMetaFromArrow,
   isLayerHoveredFromArrow,
@@ -70,6 +70,9 @@ export const geojsonVisConfigs: {
   radiusRange: 'radiusRange';
   heightRange: 'elevationRange';
   elevationScale: 'elevationScale';
+  zoomLimited: 'zoomLimited';
+  minZoom:'minZoom';
+  maxZoom:'maxZoom';
   stroked: 'stroked';
   filled: 'filled';
   enable3d: 'enable3d';
@@ -94,6 +97,9 @@ export const geojsonVisConfigs: {
   radiusRange: 'radiusRange',
   heightRange: 'elevationRange',
   elevationScale: 'elevationScale',
+  zoomLimited: 'zoomLimited',
+  minZoom:'minZoom',
+  maxZoom:'maxZoom',
   stroked: 'stroked',
   filled: 'filled',
   enable3d: 'enable3d',
@@ -114,6 +120,9 @@ export type GeoJsonVisConfigSettings = {
   radiusRange: VisConfigRange;
   heightRange: VisConfigRange;
   elevationScale: VisConfigNumber;
+  zoomLimited: VisConfigBoolean;
+  minZoom: VisConfigNumber;
+  maxZoom: VisConfigNumber;
   fixedHeight: VisConfigBoolean;
   stroked: VisConfigBoolean;
   filled: VisConfigBoolean;
@@ -138,6 +147,9 @@ export type GeoJsonLayerVisConfig = {
   radiusRange: [number, number];
   heightRange: [number, number];
   elevationScale: number;
+  zoomLimited: boolean;
+  minZoom: number;
+  maxZoom: number;
   stroked: boolean;
   filled: boolean;
   enable3d: boolean;
@@ -593,6 +605,11 @@ export default class GeoJsonLayer extends Layer {
     const eleZoomFactor = this.getElevationZoomFactor(mapState);
 
     const {visConfig} = this.config;
+
+    if(visConfig.zoomLimited){
+      if(mapState.zoom < visConfig.minZoom || mapState.zoom > visConfig.maxZoom)
+        return [];
+    }
 
     const layerProps = {
       lineWidthScale: visConfig.thickness * zoomFactor * 8,
