@@ -207,6 +207,9 @@ export type LayerVisConfigSettings = {
   'hi-precision': VisConfigBoolean;
   enable3d: VisConfigBoolean;
   stroked: VisConfigBoolean;
+  zoomLimited: VisConfigBoolean;
+  minZoom: VisConfigNumber;
+  maxZoom: VisConfigNumber;
   filled: VisConfigBoolean;
   extruded: VisConfigBoolean;
   wireframe: VisConfigBoolean;

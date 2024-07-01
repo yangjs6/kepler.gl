@@ -738,6 +738,28 @@ export default function LayerConfiguratorFactory(
 
       return (
         <StyledLayerVisualConfigurator>
+
+          {/* Zoom Level */}
+          <LayerConfigGroup
+              {...layer.visConfigSettings.zoomLimited}
+              {...visConfiguratorProps}
+            label="layer.zoomLevel"
+            collapsible
+          >            
+            <ConfigGroupCollapsibleContent>
+              <VisConfigSlider
+                {...layer.visConfigSettings.minZoom}
+                {...visConfiguratorProps}
+                label="layerVisConfigs.minZoom"
+              />
+              <VisConfigSlider
+                {...layer.visConfigSettings.maxZoom}
+                {...visConfiguratorProps}
+                label="layerVisConfigs.maxZoom"
+              />
+            </ConfigGroupCollapsibleContent>
+          </LayerConfigGroup>
+
           {/* Fill Color */}
           {featureTypes.polygon || featureTypes.point ? (
             <LayerConfigGroup
