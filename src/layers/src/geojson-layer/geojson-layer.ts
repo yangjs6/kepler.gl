@@ -20,6 +20,8 @@ import Layer, {
 } from '../base-layer';
 import {GeoJsonLayer as DeckGLGeoJsonLayer} from '@deck.gl/layers';
 import {getGeojsonLayerMeta, GeojsonDataMaps, DeckGlGeoTypes} from './geojson-utils';
+import {BrushingExtension} from '@deck.gl/extensions';
+import {getTextOffsetByRadius, formatTextLabelData} from '../layer-text-label';
 import {
   getGeojsonLayerMetaFromArrow,
   isLayerHoveredFromArrow,
@@ -52,6 +54,8 @@ const SUPPORTED_ANALYZER_TYPES = {
   [DATA_TYPES.GEOMETRY_FROM_STRING]: true,
   [DATA_TYPES.PAIR_GEOMETRY_FROM_STRING]: true
 };
+
+const brushingExtension = new BrushingExtension();
 
 export const geojsonVisConfigs: {
   opacity: 'opacity';
@@ -180,6 +184,16 @@ const geoFieldAccessor = ({geojson}: GeoJsonLayerColumnsConfig) => (
   dc: DataContainerInterface
 ): Field | null => (dc.getField ? dc.getField(geojson.fieldIdx) : null);
 
+
+const pointPosAccessor = (centroids: Array<number[] | null>) => dc => d => {
+  const index = d.properties.index;    
+  const point = centroids[index];
+  // if no valid centroid, return false
+  if (!point) return [0, 0, 0];    
+  return [point[0], point[1], 0];
+};
+
+
 // access feature properties from geojson sub layer
 export const defaultElevation = 500;
 export const defaultLineWidth = 1;
@@ -202,6 +216,10 @@ export default class GeoJsonLayer extends Layer {
     this.registerVisConfig(geojsonVisConfigs);
     this.getPositionAccessor = (dataContainer: DataContainerInterface) =>
       featureAccessor(this.config.columns)(dataContainer);
+
+    
+    this.getCentroidsAccessor = dataContainer =>
+      pointPosAccessor(this.centroids)(dataContainer);  
   }
 
   get type() {
@@ -374,13 +392,76 @@ export default class GeoJsonLayer extends Layer {
     return filteredIndex.map(i => this.dataToFeature[i]).filter(d => d);
   }
 
+
+
+  formatTextLabelData = ({
+    textLabel,
+    triggerChanged,
+    oldLayerData,
+    data,
+    dataContainer
+  }) => {
+    return textLabel.map((tl, i) => {
+      if (!tl.field) {
+        // if no field selected,
+        return {
+          getText: null,
+          characterSet: []
+        };
+      }
+
+      const textLabelAccessor = textLabel => dc => d => {
+        const val = dc.valueAt(d.properties.index, textLabel.field.fieldIdx);
+        return val ? String(val) : '';
+      };
+
+      const getText = textLabelAccessor(tl)(dataContainer);
+      let characterSet;
+
+      if (
+        !triggerChanged[`getLabelCharacterSet-${i}`] &&
+        oldLayerData &&
+        oldLayerData.textLabels &&
+        oldLayerData.textLabels[i]
+      ) {
+        characterSet = oldLayerData.textLabels[i].characterSet;
+      } else {
+        const allLabels = tl.field ? data.map(getText) : [];
+        characterSet = uniq(allLabels.join(''));
+      }
+
+      return {
+        characterSet,
+        getText
+      };
+    });
+  };
+
+
+  getCentroidsAccessor(dataContainer?: DataContainerInterface) {
+    
+  }
+  
   formatLayerData(datasets, oldLayerData) {
     if (this.config.dataId === null) {
       return {};
     }
-    const {gpuFilter, dataContainer} = datasets[this.config.dataId];
-    const {data} = this.updateData(datasets, oldLayerData);
 
+    const {textLabel} = this.config;
+    const {gpuFilter, dataContainer} = datasets[this.config.dataId];
+    const {data, triggerChanged} = this.updateData(datasets, oldLayerData);
+    
+    const getPosition = this.getCentroidsAccessor(dataContainer);  
+    
+    // get all distinct characters in the text labels
+    const textLabels = this.formatTextLabelData({
+      textLabel,
+      triggerChanged,
+      oldLayerData,
+      data,
+      dataContainer
+    });
+    
     const customFilterValueAccessor = (dc, d, fieldIndex) => {
       return dc.valueAt(d.properties.index, fieldIndex);
     };
@@ -395,6 +476,8 @@ export default class GeoJsonLayer extends Layer {
 
     return {
       data,
+      getPosition,
+      textLabels,
       getFilterValue: gpuFilter.filterValueAccessor(dataContainer)(
         indexAccessor,
         customFilterValueAccessor
@@ -520,6 +603,7 @@ export default class GeoJsonLayer extends Layer {
 
     const updateTriggers = {
       ...this.getVisualChannelUpdateTriggers(),
+      getPosition: this.centroids,
       getFilterValue: gpuFilter.filterValueUpdateTriggers,
       getFiltered: this.filteredIndexTrigger
     };
@@ -533,6 +617,17 @@ export default class GeoJsonLayer extends Layer {
     const hoveredObject = this.hasHoveredObject(objectHovered);
 
     const {data, ...props} = dataProps;
+
+    const brushingProps = this.getBrushingExtensionProps(interactionConfig);
+    const getPixelOffset = getTextOffsetByRadius(radiusScale, props.getPointRadius, mapState);
+    const extensions = [...defaultLayerProps.extensions, brushingExtension];
+    const sharedProps = {
+      getFilterValue: data.getFilterValue,
+      extensions,
+      filterRange: defaultLayerProps.filterRange,
+      visible: defaultLayerProps.visible,
+      ...brushingProps
+    };
 
     // arrow table can have multiple chunks, a deck.gl layer is created for each chunk
     const deckLayerData = this.dataContainer instanceof ArrowDataContainer ? data : [data];
@@ -591,7 +686,17 @@ export default class GeoJsonLayer extends Layer {
               filled: false
             })
           ]
-        : [])
+        : []),
+        // text label layer
+        ...this.renderTextLabelLayer(
+          {
+            getPosition: props.getPosition,
+            sharedProps,
+            getPixelOffset,
+            updateTriggers
+          },
+          opts
+        )
     ];
   }
 }
