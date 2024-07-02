@@ -50,6 +50,7 @@ export default {
     text: {
       label: '标签',
       labelWithId: '标签 {labelId}',
+      fontFamily: '字体',
       fontSize: '字体大小',
       fontColor: '字体颜色',
       textAnchor: '文本锚',

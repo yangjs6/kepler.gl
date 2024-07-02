@@ -52,6 +52,7 @@ export default {
     text: {
       label: 'label',
       labelWithId: 'Label {labelId}',
+      fontFamily: 'Font Family',
       fontSize: 'Font size',
       fontColor: 'Font color',
       backgroundColor: 'Background color',
