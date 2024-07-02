@@ -85,6 +85,18 @@ function TextLabelPanelFactory(
                   />
                 </SidePanelSection>
                 <SidePanelSection>
+                  <SBFlexboxItem>
+                    <PanelLabel>
+                      <FormattedMessage id="panel.text.fontFamily" />
+                    </PanelLabel>
+                    <ItemSelector
+                      {...LAYER_TEXT_CONFIGS.textFontFamily}
+                      selectedItems={tl.fontFamily}
+                      onChange={val => updateLayerTextLabel(idx, 'fontFamily', val)}
+                    />
+                  </SBFlexboxItem>
+                </SidePanelSection>
+                <SidePanelSection>
                   <PanelLabel>
                     <FormattedMessage id="panel.text.fontSize" />
                   </PanelLabel>

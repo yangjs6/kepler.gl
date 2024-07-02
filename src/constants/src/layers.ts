@@ -41,6 +41,7 @@ export const DEFAULT_TEXT_LABEL: LayerTextLabel = {
   offset: [0, 0],
   anchor: 'start',
   alignment: 'center',
+  fontFamily: "system-ui",
   outlineWidth: 0,
   outlineColor: [255, 0, 0, 255],
   background: false,
@@ -514,6 +515,12 @@ export const LAYER_TEXT_CONFIGS: LayerTextConfig = {
   textAlignment: {
     type: 'select',
     options: ['top', 'center', 'bottom'],
+    multiSelect: false,
+    searchable: false
+  },
+  textFontFamily: {
+    type: 'select',
+    options: ['system-ui', 'serif', 'sans-serif', 'monospace', 'cursive'],
     multiSelect: false,
     searchable: false
   }

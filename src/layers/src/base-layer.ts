@@ -11,6 +11,9 @@ import {TextLayer} from '@deck.gl/layers';
 import DefaultLayerIcon from './default-layer-icon';
 import {diffUpdateTriggers} from './layer-update';
 
+// import {CollisionFilterExtension} from '@deck.gl/extensions/';
+// import type {CollisionFilterExtensionProps} from '@deck.gl/extensions';
+
 import {
   ALL_FIELD_TYPES,
   NO_VALUE_COLOR,
@@ -1358,12 +1361,20 @@ class Layer {
             outlineColor: textLabel[i].outlineColor,
             background,
             getBackgroundColor: textLabel[i].backgroundColor,
+            fontFamily: textLabel[i].fontFamily,
             fontSettings: {
               sdf: textLabel[i].outlineWidth > 0
             },
             parameters: {
               // text will always show on top of all layers
               depthTest: false
+            },
+
+            // extensions: [new CollisionFilterExtension()],
+            // CollideExtension options
+            collisionEnabled: true,
+            collisionTestProps: {
+              sizeScale: textLabel[i].size * 2
             },
 
             getFilterValue: data.getFilterValue,
