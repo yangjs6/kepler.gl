@@ -10,6 +10,9 @@ const KeplerPackage = require('../package');
 const SRC_DIR = resolve(__dirname, '../src');
 const OUTPUT_DIR = resolve(__dirname, '../umd');
 
+// For deck.gl upgrade, load deck.gl from node_modules of the root directory
+const NODE_MODULES_DIR = resolve(__dirname, '../node_modules');
+
 const LIBRARY_BUNDLE_CONFIG = env => ({
   entry: {
     KeplerGl: join(SRC_DIR, 'index.js')
@@ -75,7 +78,13 @@ const LIBRARY_BUNDLE_CONFIG = env => ({
       {
         test: /\.(js|ts|tsx)$/,
         loader: 'babel-loader',
-        include: [SRC_DIR],
+        include: [
+          ...[
+            join(NODE_MODULES_DIR, '@loaders.gl'),
+            join(NODE_MODULES_DIR, '@math.gl'),
+
+          ],
+          SRC_DIR],
         options: {
           plugins: [
             [

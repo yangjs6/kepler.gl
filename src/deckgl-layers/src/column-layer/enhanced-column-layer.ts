@@ -2,7 +2,7 @@
 // Copyright contributors to the kepler.gl project
 
 import {UNIT} from '@deck.gl/core';
-import {ColumnLayer, ColumnLayerProps} from '@deck.gl/layers/typed';
+import {ColumnLayer, ColumnLayerProps} from '@deck.gl/layers';
 import GL from '@luma.gl/constants';
 
 import {editShader} from '../';

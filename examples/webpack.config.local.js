@@ -142,11 +142,13 @@ function makeBabelRule(env, exampleDir) {
             join(NODE_MODULES_DIR, '@luma.gl'),
             join(NODE_MODULES_DIR, '@probe.gl'),
             join(NODE_MODULES_DIR, '@loaders.gl'),
+            join(NODE_MODULES_DIR, '@math.gl'),
             join(EXTERNAL_DECK_SRC, 'modules'),
             join(EXTERNAL_DECK_SRC, 'node_modules/@luma.gl'),
             join(EXTERNAL_DECK_SRC, 'node_modules/@probe.gl'),
             join(EXTERNAL_DECK_SRC, 'node_modules/probe.gl'),
-            join(EXTERNAL_DECK_SRC, 'node_modules/@loaders.gl')
+            join(EXTERNAL_DECK_SRC, 'node_modules/@loaders.gl'),
+            join(EXTERNAL_DECK_SRC, 'node_modules/@math.gl')
           ]
         : []),
       ...(env.loaders_src ? [join(EXTERNAL_LOADERS_SRC, 'modules')] : []),
@@ -157,7 +159,7 @@ function makeBabelRule(env, exampleDir) {
     // do not exclude deck.gl and luma.gl when loading from root/node_modules
     exclude:
       env.deck || env.deck_src
-        ? [/node_modules\/(?!(@deck\.gl|@luma\.gl|@probe\.gl|probe.gl|@loaders\.gl)\/).*/]
+        ? [/node_modules\/(?!(@deck\.gl|@luma\.gl|@probe\.gl|probe.gl|@loaders\.gl|@math\.gl)\/).*/]
         : [/node_modules/],
     options: {
       presets: ['@babel/preset-env', '@babel/preset-react', '@babel/preset-typescript'],
@@ -228,7 +230,7 @@ function addBabelSettings(env, config, exampleDir) {
 
 module.exports = (exampleConfig, exampleDir) => env => {
   // find all @deck.gl @luma.gl @loaders.gl @hubble.gl modules
-  const modules = ['@deck.gl', '@loaders.gl', '@luma.gl', '@probe.gl', '@hubble.gl'];
+  const modules = ['@deck.gl', '@loaders.gl', '@luma.gl', '@probe.gl', '@hubble.gl', '@math.gl'];
   const loadAllDirs = modules.map(
     dir =>
       new Promise(function readDir(success, reject) {
@@ -248,10 +250,11 @@ module.exports = (exampleConfig, exampleDir) => env => {
       'loaders.gl': results[1],
       'luma.gl': results[2],
       'probe.gl': results[3],
-      'hubble.gl': results[4]
+      'hubble.gl': results[4],
+      'math.gl': results[5]
     }))
     .then(externals => {
       const config = addLocalDevSettings(env, exampleConfig, exampleDir, externals);
       return addBabelSettings(env, config, exampleDir, externals);
-    });
+          });
 };
