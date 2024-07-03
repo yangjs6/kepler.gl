@@ -30,7 +30,7 @@
     "umd"
   ],
   "dependencies": {
-    "@danmarshall/deckgl-typings": "4.9.22",
+    "@kepler.gl/deckgl-typings": "3.0.0",
     "@deck.gl/aggregation-layers": "^8.9.27",
     "@deck.gl/core": "^8.9.27",
     "@deck.gl/geo-layers": "^8.9.27",

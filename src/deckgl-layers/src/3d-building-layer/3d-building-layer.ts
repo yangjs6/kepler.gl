@@ -7,9 +7,9 @@ import {TileLayer as DeckGLTileLayer} from '@deck.gl/geo-layers';
 import {SolidPolygonLayer, SolidPolygonLayerProps} from '@deck.gl/layers';
 
 import {getTileData} from './3d-building-utils';
-import {ThreeDBuildingLayerProps, TileDataItem, TileLoadProps} from './types';
+import {ThreeDBuildingLayerProps, TileDataItem} from './types';
 
-export default class ThreeDBuildingLayer extends CompositeLayer<ThreeDBuildingLayerProps> {
+export default class ThreeDBuildingLayer extends CompositeLayer<any, ThreeDBuildingLayerProps> {
   // this layer add its subLayers to the redux store, and push sample data
 
   renderSubLayers(props: SolidPolygonLayerProps<any>) {
@@ -32,8 +32,15 @@ export default class ThreeDBuildingLayer extends CompositeLayer<ThreeDBuildingLa
     return [
       new DeckGLTileLayer({
         id: `${this.id}-deck-3d-building` as string,
-        getTileData: (tile: TileLoadProps) =>
-          getTileData(this.props.mapboxApiUrl, this.props.mapboxApiAccessToken, tile),
+        getTileData: (tile: {
+          x: number;
+          y: number;
+          z: number;
+          url: string;
+          bbox: any;
+          signal: AbortSignal;
+        })  =>
+          getTileData(this.props.mapboxApiUrl, this.props.mapboxApiAccessToken,  {index: {x:tile.x, y: tile.y, z: tile.z}}),
         minZoom: 13,
         renderSubLayers: this.renderSubLayers.bind(this),
         updateTriggers: this.props.updateTriggers

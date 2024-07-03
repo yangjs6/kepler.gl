@@ -69,15 +69,15 @@ class EnhancedColumnLayer extends ColumnLayer<any, EnhancedColumnLayerProps> {
 
     model.setUniforms(uniforms).setUniforms({
       radius,
-      angle: (angle / 180) * Math.PI,
+      angle: angle ? (angle / 180) * Math.PI : 0,
       offset,
       extruded,
       stroked,
       coverage,
       elevationScale,
       edgeDistance,
-      radiusUnits: UNIT[radiusUnits],
-      widthUnits: UNIT[lineWidthUnits],
+      radiusUnits: radiusUnits?UNIT[radiusUnits]:0,
+      widthUnits: lineWidthUnits?UNIT[lineWidthUnits]:0,
       widthScale: lineWidthScale,
       widthMinPixels: lineWidthMinPixels,
       widthMaxPixels: lineWidthMaxPixels

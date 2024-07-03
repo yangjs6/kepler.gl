@@ -14,7 +14,7 @@ export interface ScatterplotIconLayerProps extends ScatterplotLayerProps<any> {
 export default class ScatterplotIconLayer extends ScatterplotLayer<any, ScatterplotIconLayerProps> {
   _getModel(gl: WebGLRenderingContext) {
     // use default scatterplot shaders
-    const shaders = this.getShaders(undefined);
+    const shaders = this.getShaders();
 
     const {iconGeometry} = this.props;
 
