@@ -54,7 +54,9 @@ export default {
       fontSize: '字体大小',
       fontColor: '字体颜色',
       textAnchor: '文本锚',
-      alignment: '对齐方式',
+      alignment: '对齐方式',      
+      collision: '碰撞检测',
+      collisionScale: '碰撞比例',
       addMoreLabel: '添加更多标签'
     }
   },

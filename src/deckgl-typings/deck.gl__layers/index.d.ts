@@ -761,6 +761,7 @@ declare module '@deck.gl/layers/geojson-layer/geojson-layer' {
     textSizeMinPixels?: TextLayerProps<D>['sizeMinPixels'];
     textSizeMaxPixels?: TextLayerProps<D>['sizeMaxPixels'];
     textCharacterSet?: TextLayerProps<D>['characterSet'];
+    textCollisionScale?: TextLayerProps<D>['collisionScale'];
     textFontFamily?: TextLayerProps<D>['fontFamily'];
     textFontWeight?: TextLayerProps<D>['fontWeight'];
     textLineHeight?: TextLayerProps<D>['lineHeight'];

@@ -53,6 +53,8 @@ export default {
       label: 'label',
       labelWithId: 'Label {labelId}',
       fontFamily: 'Font Family',
+      collision: 'Collision',
+      collisionScale: 'Collision Scale',
       fontSize: 'Font size',
       fontColor: 'Font color',
       backgroundColor: 'Background color',

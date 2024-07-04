@@ -94,6 +94,8 @@ export type LayerTextLabel = {
   anchor: string;
   alignment: string;
   fontFamily: string;
+  collisionEnabled: boolean;
+  collisionScale: number;
   outlineWidth: number;
   outlineColor: RGBAColor;
   backgroundColor: RGBAColor;
@@ -282,4 +284,5 @@ export type LayerTextConfig = {
   textAnchor: TextConfigSelect;
   textAlignment: TextConfigSelect;
   textFontFamily: TextConfigSelect;
+  textCollisionScale: TextConfigNumber;
 };

@@ -173,6 +173,31 @@ function TextLabelPanelFactory(
                 </SidePanelSection>
 
                 <SidePanelSection>
+                  <SwitchWrapper>
+                    <PanelLabel>
+                      <FormattedMessage id="panel.text.collision" />
+                    </PanelLabel>
+                    <Switch
+                      checked={tl.collisionEnabled}
+                      id={`${this.props.id}-textCollisionEnabled-${idx}`}
+                      onChange={() => updateLayerTextLabel(idx, 'collisionEnabled', !tl.collisionEnabled)}
+                    />
+                  </SwitchWrapper>          
+                  {tl.collisionEnabled && (                  
+                    <SidePanelSection>
+                      <PanelLabel>
+                        <FormattedMessage id="panel.text.collisionScale" />
+                      </PanelLabel>
+                      <RangeSlider
+                        {...LAYER_TEXT_CONFIGS.textCollisionScale}
+                        value1={tl.collisionScale}
+                        isRanged={false}
+                        onChange={v => updateLayerTextLabel(idx, 'collisionScale', v[1])}
+                      />
+                    </SidePanelSection>
+                  )}        
+                </SidePanelSection>
+                <SidePanelSection>
                   <SpaceBetweenFlexbox>
                     <SBFlexboxItem>
                       <PanelLabel>

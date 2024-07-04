@@ -42,6 +42,8 @@ export const DEFAULT_TEXT_LABEL: LayerTextLabel = {
   anchor: 'start',
   alignment: 'center',
   fontFamily: "system-ui",
+  collisionEnabled: false,
+  collisionScale: 2,
   outlineWidth: 0,
   outlineColor: [255, 0, 0, 255],
   background: false,
@@ -517,6 +519,15 @@ export const LAYER_TEXT_CONFIGS: LayerTextConfig = {
     options: ['top', 'center', 'bottom'],
     multiSelect: false,
     searchable: false
+  },
+  textCollisionScale: {
+    type: 'number',
+    range: [1, 5],
+    value0: 1,
+    step: 0.1,
+    isRanged: false,
+    label: 'Collision Scale',
+    showInput: true
   },
   textFontFamily: {
     type: 'select',

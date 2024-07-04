@@ -11,8 +11,7 @@ import {TextLayer} from '@deck.gl/layers';
 import DefaultLayerIcon from './default-layer-icon';
 import {diffUpdateTriggers} from './layer-update';
 
-// import {CollisionFilterExtension} from '@deck.gl/extensions/';
-// import type {CollisionFilterExtensionProps} from '@deck.gl/extensions';
+import {CollisionFilterExtension} from '@deck.gl/extensions';
 
 import {
   ALL_FIELD_TYPES,
@@ -1370,11 +1369,12 @@ class Layer {
               depthTest: false
             },
 
-            // extensions: [new CollisionFilterExtension()],
+            extensions: [new CollisionFilterExtension()],
             // CollideExtension options
-            collisionEnabled: true,
+            collisionEnabled: textLabel[i].collisionEnabled,
+            collisionGroup: 'legend',
             collisionTestProps: {
-              sizeScale: textLabel[i].size * 2
+              sizeScale: textLabel[i].size * textLabel[i].collisionScale
             },
 
             getFilterValue: data.getFilterValue,
