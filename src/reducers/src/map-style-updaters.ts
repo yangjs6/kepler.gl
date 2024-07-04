@@ -729,8 +729,16 @@ export const inputMapStyleUpdater = (
  * @memberof mapStyleUpdaters
  */
 export const addCustomMapStyleUpdater = (state: MapStyle): MapStyle => {
-  const styleId = state.inputStyle.id;
+  // const styleId = state.inputStyle.id;
+  
+  const styleId = 
+  state.inputStyle.custom === 'MANAGED'
+    ? state.inputStyle.id // custom MANAGED type
+    : generateHashId(); // custom LOCAL type
+    
   if (!styleId) return state;
+
+  state.inputStyle.id = styleId;
 
   const newState = getNewStateWithCustomMapStyle(state);
   // set new style

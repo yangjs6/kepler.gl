@@ -74,6 +74,7 @@ export default {
     weight: '权重',
     propertyBasedOn: '{property}的基准',
     coverage: '覆盖范围',
+    zoomLevel: '缩放层级',
     stroke: '线条粗细',
     strokeWidth: '线条宽度',
     strokeColor: '线条颜色',
@@ -118,6 +119,9 @@ export default {
     coverage: '覆盖范围',
     outline: '轮廓',
     colorRange: '色彩范围',
+    zoomLimited: '限制缩放层级',
+    minZoom: '最小缩放层级',
+    maxZoom: '最大缩放层级',    
     stroke: '线',
     strokeColor: '线条颜色',
     strokeColorRange: '线条色彩范围',
@@ -411,6 +415,7 @@ export default {
   },
   color: {
     customPalette: '自定义调色板',
+    useColorPicker: '使用颜色选择器',
     steps: '步骤',
     type: '类型',
     reversed: '反转'

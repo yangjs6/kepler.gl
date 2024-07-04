@@ -738,6 +738,28 @@ export default function LayerConfiguratorFactory(
 
       return (
         <StyledLayerVisualConfigurator>
+
+          {/* Zoom Level */}
+          <LayerConfigGroup
+              {...layer.visConfigSettings.zoomLimited}
+              {...visConfiguratorProps}
+            label="layer.zoomLevel"
+            collapsible
+          >            
+            <ConfigGroupCollapsibleContent>
+              <VisConfigSlider
+                {...layer.visConfigSettings.minZoom}
+                {...visConfiguratorProps}
+                label="layerVisConfigs.minZoom"
+              />
+              <VisConfigSlider
+                {...layer.visConfigSettings.maxZoom}
+                {...visConfiguratorProps}
+                label="layerVisConfigs.maxZoom"
+              />
+            </ConfigGroupCollapsibleContent>
+          </LayerConfigGroup>
+
           {/* Fill Color */}
           {featureTypes.polygon || featureTypes.point ? (
             <LayerConfigGroup
@@ -870,6 +892,14 @@ export default function LayerConfiguratorFactory(
               </ConfigGroupCollapsibleContent>
             </LayerConfigGroup>
           ) : null}
+          
+          {/* text label */}
+          <TextLabelPanel
+            id={layer.id}
+            fields={visConfiguratorProps.fields}
+            updateLayerTextLabel={this.props.updateLayerTextLabel}
+            textLabel={layer.config.textLabel}
+          />
         </StyledLayerVisualConfigurator>
       );
     }
