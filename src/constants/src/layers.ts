@@ -501,9 +501,9 @@ export const LAYER_TEXT_CONFIGS: LayerTextConfig = {
   },
   outlineWidth: {
     type: 'number',
-    range: [0, 1],
+    range: [0, 5],
     value0: 0,
-    step: 0.01,
+    step: 0.1,
     isRanged: false,
     label: 'Outline width',
     showInput: true
