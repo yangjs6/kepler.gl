@@ -895,7 +895,15 @@ class Layer {
     if (Array.isArray(colorRange.colorMap)) {
       const cMap = new Map();
       colorRange.colorMap.forEach(([k, v]) => {
-        cMap.set(k, typeof v === 'string' ? hexToRgb(v) : v);
+        let value = typeof v === 'string' ? hexToRgb(v) : v;
+        
+        if (Array.isArray(k)) {
+          for (let i = 0; i <= k.length; i++) {
+            cMap.set(k[i], value);
+          }
+        }else{
+          cMap.set(k, value);
+        }
       });
 
       const scale = SCALE_FUNC[SCALE_TYPES.ordinal]()
