@@ -71,7 +71,7 @@ function LayerGroupColorPickerFactory() {
         />
         <Tooltip id={`update-color-${slug}`} effect="solid" delayShow={500}>
           <span>
-            <FormattedMessage id={'Update color'} />
+            <FormattedMessage id={'tooltip.updateColor'} />
           </span>
         </Tooltip>
         <Portaled

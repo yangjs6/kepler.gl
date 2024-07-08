@@ -203,6 +203,7 @@ export default {
     rowCount: '{rowCount} rows'
   },
   tooltip: {
+    updateColor: 'Update color',
     hideLayer: 'Hide layer',
     showLayer: 'Show layer',
     hideFeature: 'Hide feature',

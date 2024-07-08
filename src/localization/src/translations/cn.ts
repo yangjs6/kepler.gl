@@ -175,6 +175,7 @@ export default {
     rowCount: '{rowCount}行'
   },
   tooltip: {
+    updateColor: '更新颜色',
     hideLayer: '隐藏图层',
     showLayer: '显示图层',
     hideFeature: '隐藏特征',

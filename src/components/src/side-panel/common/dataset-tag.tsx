@@ -77,7 +77,7 @@ export default function DatasetTagFactory(): React.FC<DatasetTagProps> {
         {updateTableColor ? (
           <Tooltip id={`update-color-${dataset.id}`} effect="solid">
             <span>
-              <FormattedMessage id={'Update color'} />
+              <FormattedMessage id={'tooltip.updateColor'} />
             </span>
           </Tooltip>
         ) : null}
