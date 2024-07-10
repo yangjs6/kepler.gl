@@ -2,14 +2,14 @@
 // Copyright contributors to the kepler.gl project
 
 export const LOCALES = {
-  en: 'English',
-  fi: 'Suomi',
-  pt: 'Português',
-  es: 'Español',
-  ca: 'Català',
-  ja: '日本語',
   cn: '简体中文',
-  ru: 'Русский'
+  en: 'English',
+  // fi: 'Suomi',
+  // pt: 'Português',
+  // es: 'Español',
+  // ca: 'Català',
+  // ja: '日本語',
+  // ru: 'Русский'
 };
 
 /**

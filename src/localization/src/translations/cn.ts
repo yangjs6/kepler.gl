@@ -7,12 +7,12 @@ export default {
   property: {
     weight: '权重',
     label: '标签',
-    fillColor: '填充色',
+    fillColor: '填充颜色',
     color: '颜色',
     coverage: '覆盖范围',
     strokeColor: '线条颜色',
     radius: '半径',
-    outline: '轮廓线',
+    outline: '外轮廓线',
     stroke: '线条粗细',
     density: '密度',
     height: '高度',
@@ -24,8 +24,9 @@ export default {
     selectField: '选择区域',
     yAxis: 'Y轴',
     selectType: '选择类型',
-    selectValue: '选择值',
-    enterValue: '输入值',
+    selectValue: '选择数值',
+    selectLayer: '选择图层',
+    enterValue: '输入数值',
     empty: '未选择'
   },
   misc: {
@@ -42,9 +43,10 @@ export default {
     road: '道路',
     border: '边界线',
     building: '建筑物',
-    water: '水',
+    water: '水域',
     land: '地面',
-    '3dBuilding': '3D建筑'
+    '3dBuilding': '3D建筑',
+    background: '背景'
   },
   panel: {
     text: {
@@ -53,10 +55,13 @@ export default {
       fontFamily: '字体',
       fontSize: '字体大小',
       fontColor: '字体颜色',
-      textAnchor: '文本锚',
+      backgroundColor: '背景颜色',
+      textAnchor: '文本锚点',
       alignment: '对齐方式',      
       collision: '碰撞检测',
       collisionScale: '碰撞比例',
+      outlineWidth: '轮廓宽度',
+      outlineColor: '轮廓颜色',
       addMoreLabel: '添加更多标签'
     }
   },
@@ -66,16 +71,20 @@ export default {
       filter: '过滤器',
       interaction: '交互',
       basemap: '底图'
+    },
+    panelViewToggle: {
+      list: '列表视图',
+      byDataset: '数据视图'
     }
   },
   layer: {
     required: '必填*',
     radius: '半径',
     color: '颜色',
-    fillColor: '填充色',
-    outline: '轮廓线',
+    fillColor: '填充颜色',
+    outline: '外轮廓线',
     weight: '权重',
-    propertyBasedOn: '{property}的基准',
+    propertyBasedOn: '{property}基准',
     coverage: '覆盖范围',
     zoomLevel: '缩放层级',
     stroke: '线条粗细',
@@ -83,7 +92,7 @@ export default {
     strokeColor: '线条颜色',
     basic: '基础设置',
     trailLength: '轨迹长度',
-    trailLengthDescription: '轨迹淡出的秒数',
+    trailLengthDescription: '轨迹完全淡出的秒数',
     newLayer: '新建图层',
     elevationByDescription: '关闭时，高度取决于点数',
     colorByDescription: '关闭时，颜色取决于点数',
@@ -106,7 +115,9 @@ export default {
       trip: 'trip',
       s2: 'S2',
       '3d': '3D'
-    }
+    },
+    layerUpdateError:
+      '图层更新时发生错误： {errorMessage}. 请确保输入数据的格式正确。'
   },
   layerVisConfigs: {
     angle: '角度',
@@ -120,12 +131,12 @@ export default {
     radiusRangePixels: '半径范围[像素]',
     opacity: '透明度',
     coverage: '覆盖范围',
-    outline: '轮廓',
+    outline: '外轮廓线',
     colorRange: '色彩范围',
     zoomLimited: '限制缩放层级',
     minZoom: '最小缩放层级',
     maxZoom: '最大缩放层级',    
-    stroke: '线',
+    stroke: '线条粗细',
     strokeColor: '线条颜色',
     strokeColorRange: '线条色彩范围',
     targetColor: '目标颜色',
@@ -135,8 +146,9 @@ export default {
     sizeScale: '大小比例',
     worldUnitSize: '世界单位大小',
     elevationScale: '海拔比例',
-    enableElevationZoomFactor: '使用高程缩放系数',
+    enableElevationZoomFactor: '使用海拔缩放系数',
     enableElevationZoomFactorDescription: '根据当前缩放系数调整海拔',
+    enableHeightZoomFactor: '使用高度缩放系数',
     heightScale: '高度比例',
     coverageRange: '覆盖范围',
     highPrecisionRendering: '高精度渲染',
@@ -148,17 +160,33 @@ export default {
     showWireframe: '显示线框',
     weightIntensity: '加权强度',
     zoomScale: '缩放比例',
-    heightRange: '高度范围'
+    heightRange: '高度范围',
+    fixedHeight: '固定高度',
+    fixedHeightDescription: '使用固定值作为高度',
+    heightMultiplier: '高度乘数',
+    darkModeEnabled: '深色模式'
   },
   layerManager: {
     addData: '添加数据',
     addLayer: '添加图层',
-    layerBlending: '混合图层'
+    layerBlending: '图层混合',
+    overlayBlending: '覆盖混合'
   },
   mapManager: {
     mapStyle: '地图样式',
     addMapStyle: '添加地图样式',
-    '3dBuildingColor': '3D 建筑颜色'
+    '3dBuildingColor': '3D 建筑颜色',
+    backgroundColor: '背景颜色'
+  },
+  effectManager: {
+    effects: '特效',
+    addEffect: '添加特效',
+    pickDateTime: '选择日期时间',
+    currentTime: '当前时间',
+    pickCurrrentTime: '选择当前时间',
+    date: '日期',
+    time: '时间',
+    timezone: '时区'
   },
   layerConfiguration: {
     defaultDescription: '根据所选字段计算 {property}',
@@ -172,7 +200,7 @@ export default {
     removeDataset: '删除数据集'
   },
   datasetInfo: {
-    rowCount: '{rowCount}行'
+    rowCount: '{rowCount} 行'
   },
   tooltip: {
     updateColor: '更新颜色',
@@ -183,10 +211,11 @@ export default {
     hide: '隐藏',
     show: '显示',
     removeLayer: '删除图层',
-    zoomToLayer: '缩放☞图层',
     duplicateLayer: '复制图层',
+    zoomToLayer: '缩到图层',
+    resetAfterError: '尝试在失败后重置图层',
     layerSettings: '图层设置',
-    closePanel: '关闭当前面板',
+    closePanel: '关闭面板',
     switchToDualView: '切换到双地图视图',
     showLegend: '显示图例',
     disable3DMap: '禁用 3D 地图',
@@ -196,16 +225,23 @@ export default {
     showLayerPanel: '显示图层面板',
     moveToTop: '移至图层顶部',
     selectBaseMapStyle: '选择底图样式',
+    removeBaseMapStyle: '删除底图样式',
     delete: '删除',
-    timePlayback: '时空回放',
-    cloudStorage: '云存储',
+    timePlayback: '时间播放',
+    cloudStorage: '云端存储',
     '3DMap': '3D 地图',
-    animationByWindow: '移动时间窗口',
-    animationByIncremental: '增量时间窗口',
+    animationByWindow: '固定时间动画',
+    animationByIncremental: '增量时间动画',
     speed: '速度',
     play: '播放',
     pause: '暂停',
-    reset: '重置'
+    reset: '重置',
+    export: '导出',
+    showEffectPanel: '显示特效面板',
+    hideEffectPanel: '隐藏特效面板',
+    removeEffect: '删除特效',
+    disableEffect: '禁用特效',
+    effectSettings: '特效设置'
   },
   toolbar: {
     exportImage: '导出图片',
@@ -214,15 +250,16 @@ export default {
     shareMapURL: '分享地图网址',
     saveMap: '保存地图',
     select: '选择',
-    polygon: 'polygon',
-    rectangle: 'rectangle',
+    polygon: '多边形',
+    rectangle: '矩形',
     hide: '隐藏',
     show: '显示',
     ...LOCALES
   },
   editor: {
     filterLayer: '过滤图层',
-    copyGeometry: '复制几何图形'
+    copyGeometry: '复制几何图形',
+    noLayersToFilter: '没有过滤图层'
   },
   modal: {
     title: {
@@ -231,21 +268,21 @@ export default {
       exportImage: '导出图片',
       exportData: '导出数据',
       exportMap: '导出地图',
-      addCustomMapboxStyle: '添加自定义地图',
+      addCustomMapboxStyle: '添加自定义底图样式',
       saveMap: '保存地图',
       shareURL: '分享网址'
     },
     button: {
       delete: '删除',
       download: '下载',
-      export: '出口',
+      export: '导出',
       addStyle: '添加样式',
       save: '保存',
       defaultCancel: '取消',
       defaultConfirm: '确认'
     },
     exportImage: {
-      ratioTitle: '比率',
+      ratioTitle: '长宽比率',
       ratioDescription: '选择不同用途的比例。',
       ratioOriginalScreen: '原始屏幕',
       ratioCustom: '自定义',
@@ -254,7 +291,7 @@ export default {
       resolutionTitle: '分辨率',
       resolutionDescription: '高分辨率更适合打印。',
       mapLegendTitle: '地图图例',
-      mapLegendAdd: '在地图上添加图例'
+      mapLegendAdd: '添加图例'
     },
     exportData: {
       datasetTitle: '数据集',
@@ -265,7 +302,7 @@ export default {
       filterDataTitle: '过滤数据',
       filterDataSubtitle: '可以选择导出原始数据或过滤后的数据',
       filteredData: '过滤数据',
-      unfilteredData: '元数据',
+      unfilteredData: '原始数据',
       fileCount: '{fileCount} 个文件',
       rowCount: '{rowCount} 行'
     },
@@ -283,15 +320,16 @@ export default {
       publishSubtitle6: '访问令牌（access token）',
       publishSubtitle7: '。* Kepler.gl 是一个客户端应用程序，数据保留在您的浏览器中。',
       exampleToken: '例) pk.abcdefg.xxxxxx',
-      pasteTitle: '1. 粘贴样式 url',
-      pasteSubtitle0: '样式 url 可以是 Mapbox 的',
+      pasteTitle: '1. 粘贴地图样式 url',
+      pasteSubtitle0: '地图样式 url 可以是 Mapbox 的',
       pasteSubtitle1: '什么是',
-      pasteSubtitle2: '样式 URL，',
+      pasteSubtitle2: '地图样式 URL，',
       pasteSubtitle3: '还可以使用遵从Mapbox GL样式的style.json的url：',
       pasteSubtitle4: 'Mapbox GL 样式规范',
-      namingTitle: '3. 命名你的样式'
+      namingTitle: '3. 命名你的地图样式'
     },
     shareMap: {
+      title: '分享地图',
       shareUriTitle: '分享地图网址',
       shareUriSubtitle: '生成分享地图的链接',
       cloudTitle: '云存储',
@@ -384,16 +422,23 @@ export default {
     layerLegend: '图层图例'
   },
   interactions: {
-    tooltip: '工具提示',
-    brush: '刷',
-    coordinate: '坐标',
-    geocoder: '地理编码器'
+    tooltip: '提示信息',
+    brush: '交互笔刷',
+    coordinate: '地理坐标',
+    geocoder: '地理编码'
   },
   layerBlending: {
     title: '图层混合',
     additive: 'additive',
     normal: 'normal',
     subtractive: 'subtractive'
+  },
+  overlayBlending: {
+    title: '覆盖混合',
+    description: '混合图层和底图，以便在地图上显示两者。',
+    screen: '深色底图',
+    normal: 'normal',
+    darken: '浅色底图'
   },
   columns: {
     title: '列',
@@ -409,6 +454,10 @@ export default {
       lat1: '终点 纬度',
       lng1: '终点 经度'
     },
+    line: {
+      alt0: '起点 海拔',
+      alt1: '起点 海拔'
+    },
     grid: {
       worldUnitSize: '网格大小 (km)'
     },
@@ -422,13 +471,15 @@ export default {
     useColorPicker: '使用颜色选择器',
     steps: '步骤',
     type: '类型',
-    reversed: '反转'
+    reversed: '反转',
+    opacity: '透明'
   },
   scale: {
     colorScale: '色阶',
     sizeScale: '大小比例',
     strokeScale: '描边比例',
-    scale: '规模'
+    strokeColorScale: '描边色阶',
+    scale: '缩放'
   },
   fileUploader: {
     message: '将您的文件拖放到此处（可多个）',

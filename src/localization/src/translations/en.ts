@@ -25,9 +25,9 @@ export default {
     yAxis: 'Y Axis',
     selectType: 'Select A Type',
     selectValue: 'Select A Value',
+    selectLayer: 'Select a layer',
     enterValue: 'Enter a value',
-    empty: 'empty',
-    selectLayer: 'Select a layer'
+    empty: 'empty'
   },
   misc: {
     by: '',
@@ -53,16 +53,16 @@ export default {
       label: 'label',
       labelWithId: 'Label {labelId}',
       fontFamily: 'Font Family',
-      collision: 'Collision',
-      collisionScale: 'Collision Scale',
       fontSize: 'Font size',
       fontColor: 'Font color',
       backgroundColor: 'Background color',
       textAnchor: 'Text anchor',
       alignment: 'Alignment',
-      addMoreLabel: 'Add More Label',
+      collision: 'Collision',
+      collisionScale: 'Collision Scale',
       outlineWidth: 'Outline width',
-      outlineColor: 'Outline color'
+      outlineColor: 'Outline color',
+      addMoreLabel: 'Add More Label'
     }
   },
   sidebar: {
@@ -261,7 +261,6 @@ export default {
     copyGeometry: 'Copy Geometry',
     noLayersToFilter: 'No layers to filter'
   },
-
   modal: {
     title: {
       deleteDataset: 'Delete Dataset',
@@ -319,8 +318,7 @@ export default {
       publishSubtitle4: 'it.',
       publishSubtitle5: 'To use private style, paste your',
       publishSubtitle6: 'access token',
-      publishSubtitle7:
-        'here. *kepler.gl is a client-side application, data stays in your browser..',
+      publishSubtitle7: 'here. *kepler.gl is a client-side application, data stays in your browser..',
       exampleToken: 'e.g. pk.abcdefg.xxxxxx',
       pasteTitle: '1. Paste style url',
       pasteSubtitle0: 'Style url can be a mapbox',
