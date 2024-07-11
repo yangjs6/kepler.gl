@@ -1,0 +1,3 @@
+[submodule "cityfun/cityfun-editor"]
+	path = cityfun/cityfun-editor
+	url = https://github.com/yangjs6/cityfun-editor.git
