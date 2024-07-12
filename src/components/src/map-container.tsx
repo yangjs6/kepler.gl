@@ -333,7 +333,7 @@ export default function MapContainerFactory(
 
     state = {
       // Determines whether attribution should be visible based the result of loading the map style
-      showMapboxAttribution: true
+      showMapboxAttribution: false
     };
 
     constructor(props) {
