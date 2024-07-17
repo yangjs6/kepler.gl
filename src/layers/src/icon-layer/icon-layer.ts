@@ -11,6 +11,7 @@ import {ICON_FIELDS, KEPLER_UNFOLDED_BUCKET, ColorRange} from '@kepler.gl/consta
 import IconInfoModalFactory from './icon-info-modal';
 import Layer, {LayerBaseConfig, LayerBaseConfigPartial, LayerColumn} from '../base-layer';
 import {assignPointPairToLayerColumn} from '../layer-utils';
+import {getLngValue, getLatValue} from '../layer-utils';
 import {isTest} from '@kepler.gl/utils';
 import {getTextOffsetByRadius, formatTextLabelData} from '../layer-text-label';
 import {default as KeplerTable} from '@kepler.gl/table';
@@ -62,8 +63,8 @@ export const SVG_ICON_URL = `${KEPLER_UNFOLDED_BUCKET}/icons/svg-icons.json`;
 export const iconPosAccessor = ({lat, lng, altitude}: IconLayerColumnsConfig) => (
   dc: DataContainerInterface
 ) => d => [
-  dc.valueAt(d.index, lng.fieldIdx),
-  dc.valueAt(d.index, lat.fieldIdx),
+  getLngValue(lng, dc, d),
+  getLatValue(lat, dc, d),
   altitude?.fieldIdx > -1 ? dc.valueAt(d.index, altitude.fieldIdx) : 0
 ];
 

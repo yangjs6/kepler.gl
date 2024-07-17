@@ -29,6 +29,8 @@ import {
 } from '@kepler.gl/types';
 import {KeplerTable} from '@kepler.gl/table';
 
+import { getLng0Value, getLat0Value, getLng1Value, getLat1Value } from '../layer-utils';
+
 export type ArcLayerVisConfigSettings = {
   opacity: VisConfigNumber;
   thickness: VisConfigNumber;
@@ -71,11 +73,11 @@ export type ArcLayerMeta = {
 export const arcPosAccessor = ({lat0, lng0, lat1, lng1}: ArcLayerColumnsConfig) => (
   dc: DataContainerInterface
 ) => d => [
-  dc.valueAt(d.index, lng0.fieldIdx),
-  dc.valueAt(d.index, lat0.fieldIdx),
-  0,
-  dc.valueAt(d.index, lng1.fieldIdx),
-  dc.valueAt(d.index, lat1.fieldIdx),
+  getLng0Value(lng0, dc, d),
+  getLat0Value(lat0, dc, d),
+  0,  
+  getLng1Value(lng1, dc, d),
+  getLat1Value(lat1, dc, d),
   0
 ];
 

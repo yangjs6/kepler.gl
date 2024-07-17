@@ -24,6 +24,7 @@ import {
 
 import {getTextOffsetByRadius, formatTextLabelData} from '../layer-text-label';
 import {assignPointPairToLayerColumn} from '../layer-utils';
+import {getLngValue, getLatValue} from '../layer-utils';
 import {
   Merge,
   RGBColor,
@@ -80,8 +81,8 @@ export type PointLayerData = {
 };
 
 export const pointPosAccessor = ({lat, lng, altitude}: PointLayerColumnsConfig) => dc => d => [
-  dc.valueAt(d.index, lng.fieldIdx),
-  dc.valueAt(d.index, lat.fieldIdx),
+  getLngValue(lng, dc, d),
+  getLatValue(lat, dc, d),
   altitude && altitude.fieldIdx > -1 ? dc.valueAt(d.index, altitude.fieldIdx) : 0
 ];
 

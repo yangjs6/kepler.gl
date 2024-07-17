@@ -12,6 +12,7 @@ import {
   LayerWeightConfig,
   VisualChannels
 } from '../base-layer';
+import {getLngValue, getLatValue} from '../layer-utils';
 import {VisConfigColorRange, VisConfigNumber, HexColor, Merge} from '@kepler.gl/types';
 import {hexToRgb, DataContainerInterface} from '@kepler.gl/utils';
 
@@ -40,7 +41,10 @@ export const MAX_ZOOM_LEVEL = 18;
 
 export const pointPosAccessor = ({lat, lng}: HeatmapLayerColumnsConfig) => (
   dc: DataContainerInterface
-) => d => [dc.valueAt(d.index, lng.fieldIdx), dc.valueAt(d.index, lat.fieldIdx)];
+) => d => [
+  getLngValue(lng, dc, d),  
+  getLatValue(lat, dc, d)
+];
 
 export const pointColResolver = ({lat, lng}: HeatmapLayerColumnsConfig) =>
   `${lat.fieldIdx}-${lng.fieldIdx}`;

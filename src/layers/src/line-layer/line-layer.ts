@@ -19,6 +19,8 @@ import {
 import {default as KeplerTable} from '@kepler.gl/table';
 import {DataContainerInterface} from '@kepler.gl/utils';
 
+import { getLng0Value, getLat0Value, getLng1Value, getLat1Value } from '../layer-utils';
+
 export type LineLayerVisConfigSettings = {
   opacity: VisConfigNumber;
   thickness: VisConfigNumber;
@@ -54,11 +56,11 @@ export type LineLayerConfig = Merge<
 export const linePosAccessor = ({lat0, lng0, lat1, lng1, alt0, alt1}: LineLayerColumnsConfig) => (
   dc: DataContainerInterface
 ) => d => [
-  dc.valueAt(d.index, lng0.fieldIdx),
-  dc.valueAt(d.index, lat0.fieldIdx),
+  getLng0Value(lng0, dc, d),
+  getLat0Value(lat0, dc, d),
   alt0 && alt0.fieldIdx > -1 ? dc.valueAt(d.index, alt0.fieldIdx) : 0,
-  dc.valueAt(d.index, lng1.fieldIdx),
-  dc.valueAt(d.index, lat1.fieldIdx),
+  getLng1Value(lng1, dc, d),
+  getLat1Value(lat1, dc, d),
   alt1 && alt1?.fieldIdx > -1 ? dc.valueAt(d.index, alt1.fieldIdx) : 0
 ];
 

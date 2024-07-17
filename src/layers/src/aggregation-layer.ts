@@ -21,6 +21,7 @@ import {
 } from '@kepler.gl/constants';
 import {Merge} from '@kepler.gl/types';
 import {KeplerTable, Datasets} from '@kepler.gl/table';
+import {getLngValue, getLatValue} from './layer-utils';
 
 type AggregationLayerColumns = {
   lat: LayerColumn;
@@ -32,8 +33,8 @@ export type AggregationLayerData = {
 };
 
 export const pointPosAccessor = ({lat, lng}: AggregationLayerColumns) => dc => d => [
-  dc.valueAt(d.index, lng.fieldIdx),
-  dc.valueAt(d.index, lat.fieldIdx)
+  getLngValue(lng, dc, d),
+  getLatValue(lat, dc, d)
 ];
 
 export const pointPosResolver = ({lat, lng}: AggregationLayerColumns) =>

@@ -6,6 +6,7 @@ import {load} from '@loaders.gl/core';
 import {GLTFLoader} from '@loaders.gl/gltf';
 
 import Layer, {LayerBaseConfig, LayerColumn} from '../base-layer';
+import {getLngValue, getLatValue} from '../layer-utils';
 import ScenegraphLayerIcon from './scenegraph-layer-icon';
 import ScenegraphInfoModalFactory from './scenegraph-info-modal';
 import {LAYER_VIS_CONFIGS, ColorRange} from '@kepler.gl/constants';
@@ -59,8 +60,8 @@ function fetch(url, {propName, layer}: {propName?: string; layer?: any} = {}) {
 export const scenegraphPosAccessor = ({lat, lng, altitude}: ScenegraphLayerColumnsConfig) => (
   dc: DataContainerInterface
 ) => d => [
-  dc.valueAt(d.index, lng.fieldIdx),
-  dc.valueAt(d.index, lat.fieldIdx),
+  getLngValue(lng, dc, d),
+  getLatValue(lat, dc, d),
   altitude && altitude.fieldIdx > -1 ? dc.valueAt(d.index, altitude.fieldIdx) : 0
 ];
 

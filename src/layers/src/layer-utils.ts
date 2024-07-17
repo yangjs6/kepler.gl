@@ -129,3 +129,53 @@ export function getHoveredObjectFromArrow(
   }
   return null;
 }
+
+export function getLngValue(lng, dc, d): number {
+  const value = dc.valueAt(d.index, lng.fieldIdx);  
+  if (typeof value === 'object' && value.geometry && value.geometry.type === 'Point' && value.geometry.coordinates) {
+    return value.geometry.coordinates[0];
+  }
+  return value;
+}
+
+export function getLatValue(lat, dc, d): number {
+  const value = dc.valueAt(d.index, lat.fieldIdx);  
+  if (typeof value === 'object' && value.geometry && value.geometry.type === 'Point' && value.geometry.coordinates) {
+    return value.geometry.coordinates[1];
+  }
+  return value;
+}
+
+
+export function getLng0Value(lng, dc, d): number {
+  const value = dc.valueAt(d.index, lng.fieldIdx);  
+  if (typeof value === 'object' && value.geometry && value.geometry.type === 'LineString' && value.geometry.coordinates) {
+    return value.geometry.coordinates[0][0];
+  }
+  return value;
+}
+
+export function getLat0Value(lat, dc, d): number {
+  const value = dc.valueAt(d.index, lat.fieldIdx);  
+  if (typeof value === 'object' && value.geometry && value.geometry.type === 'LineString' && value.geometry.coordinates) {
+    return value.geometry.coordinates[0][1];
+  }
+  return value;
+}
+
+export function getLng1Value(lng, dc, d): number {
+  const value = dc.valueAt(d.index, lng.fieldIdx);  
+  if (typeof value === 'object' && value.geometry && value.geometry.type === 'LineString' && value.geometry.coordinates) {
+    
+    return value.geometry.coordinates[value.geometry.coordinates.length-1][0];
+  }
+  return value;
+}
+
+export function getLat1Value(lat, dc, d): number {
+  const value = dc.valueAt(d.index, lat.fieldIdx);  
+  if (typeof value === 'object' && value.geometry && value.geometry.type === 'LineString' && value.geometry.coordinates) {
+    return value.geometry.coordinates[value.geometry.coordinates.length-1][1];
+  }
+  return value;
+}
