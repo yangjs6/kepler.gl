@@ -121,6 +121,7 @@ export default {
   },
   layerVisConfigs: {
     angle: '角度',
+    widthUnit: '宽度单位',
     strokeWidth: '线条宽度',
     strokeWidthRange: '线条宽度范围',
     radius: '半径',

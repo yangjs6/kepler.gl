@@ -180,6 +180,7 @@ export type VisConfigColorRange = VisConfig & {
 
 export type LayerVisConfigSettings = {
   thickness: VisConfigNumber;
+  widthUnit: VisConfigSelection;
   strokeWidthRange: VisConfigRange;
   trailLength: VisConfigNumber;
   radius: VisConfigNumber;

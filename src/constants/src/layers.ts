@@ -87,6 +87,14 @@ export const LAYER_VIS_CONFIGS: LayerVisConfigSettings = {
     property: 'thickness',
     allowCustomValue: true
   },
+  widthUnit: {
+    type:'select',
+    defaultValue: 'pixels',
+    label: 'layerVisConfigs.widthUnit',
+    options: ['pixels', 'meters'],
+    group: PROPERTY_GROUPS.stroke,
+    property: 'widthUnit'
+  },
   strokeWidthRange: {
     type: 'number',
     defaultValue: [0, 10],

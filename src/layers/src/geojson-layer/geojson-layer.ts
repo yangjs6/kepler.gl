@@ -43,7 +43,8 @@ import {
   VisConfigBoolean,
   Merge,
   RGBColor,
-  Field
+  Field,
+  VisConfigSelection
 } from '@kepler.gl/types';
 import {KeplerTable} from '@kepler.gl/table';
 import {DataContainerInterface, ArrowDataContainer} from '@kepler.gl/utils';
@@ -61,6 +62,7 @@ export const geojsonVisConfigs: {
   opacity: 'opacity';
   strokeOpacity: VisConfigNumber;
   thickness: VisConfigNumber;
+  widthUnit: 'widthUnit';
   strokeColor: 'strokeColor';
   colorRange: 'colorRange';
   strokeColorRange: 'strokeColorRange';
@@ -88,6 +90,7 @@ export const geojsonVisConfigs: {
     ...LAYER_VIS_CONFIGS.thickness,
     defaultValue: 0.5
   },
+  widthUnit: 'widthUnit',
   strokeColor: 'strokeColor',
   colorRange: 'colorRange',
   strokeColorRange: 'strokeColorRange',
@@ -111,6 +114,7 @@ export type GeoJsonVisConfigSettings = {
   opacity: VisConfigNumber;
   strokeOpacity: VisConfigNumber;
   thickness: VisConfigNumber;
+  widthUnit: VisConfigSelection;
   strokeColor: VisConfigColorSelect;
   colorRange: VisConfigColorRange;
   strokeColorRange: VisConfigColorRange;
@@ -138,6 +142,7 @@ export type GeoJsonLayerVisConfig = {
   opacity: number;
   strokeOpacity: number;
   thickness: number;
+  widthUnit: string;
   strokeColor: RGBColor;
   colorRange: ColorRange;
   strokeColorRange: ColorRange;
@@ -612,7 +617,8 @@ export default class GeoJsonLayer extends Layer {
     }
 
     const layerProps = {
-      lineWidthScale: visConfig.thickness * zoomFactor * 8,
+      lineWidthUnits : visConfig.widthUnit,
+      lineWidthScale: visConfig.thickness * (visConfig.widthUnit === 'meters' ? zoomFactor : 1),
       elevationScale: visConfig.elevationScale * eleZoomFactor,
       pointRadiusScale: radiusScale,
       lineMiterLimit: 4

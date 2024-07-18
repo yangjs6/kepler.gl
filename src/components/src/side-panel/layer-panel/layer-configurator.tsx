@@ -6,7 +6,7 @@ import React, {Component, Fragment} from 'react';
 import styled from 'styled-components';
 import {FormattedMessage} from '@kepler.gl/localization';
 
-import {Input, PanelLabel, SidePanelSection} from '../../common/styled-components';
+import {Input, PanelLabel, SidePanelSection, SBFlexboxItem, SpaceBetweenFlexbox} from '../../common/styled-components';
 import ItemSelector from '../../common/item-selector/item-selector';
 
 import VisConfigByFieldSelectorFactory from './vis-config-by-field-selector';
@@ -817,20 +817,45 @@ export default function LayerConfiguratorFactory(
             {...(featureTypes.polygon ? layer.visConfigSettings.stroked : {})}
             label="layer.strokeWidth"
             collapsible
-          >
-            {layer.config.sizeField ? (
-              <VisConfigSlider
-                {...layer.visConfigSettings.sizeRange}
-                {...visConfiguratorProps}
-                label={false}
-              />
-            ) : (
-              <VisConfigSlider
-                {...layer.visConfigSettings.thickness}
-                {...visConfiguratorProps}
-                label={false}
-              />
-            )}
+          >            
+            <SpaceBetweenFlexbox>
+              <SBFlexboxItem>
+                {layer.config.sizeField ? (
+                  <VisConfigSlider
+                    {...layer.visConfigSettings.sizeRange}
+                    {...visConfiguratorProps}
+                    label={false}
+                  />
+                ) : (
+                  <VisConfigSlider
+                    {...layer.visConfigSettings.thickness}
+                    {...visConfiguratorProps}
+                    label={false}
+                  />
+                )}
+              </SBFlexboxItem>
+              <SBFlexboxItem>
+                <PanelLabel>
+                  <FormattedMessage id="layerVisConfigs.widthUnit" />
+                </PanelLabel>
+                <ItemSelector        
+                  {...layer.visConfigSettings.widthUnit}
+                  selectedItems={layer.config.visConfig.widthUnit}
+                  multiSelect= {false}
+                  searchable= {false}     
+                  onChange={
+                    (value) => {
+                      layerConfiguratorProps.onChange({
+                        visConfig: {
+                         ...layer.config.visConfig,
+                          widthUnit: value
+                        }
+                      });
+                    }
+                  }
+                />
+              </SBFlexboxItem>
+            </SpaceBetweenFlexbox>
             <ConfigGroupCollapsibleContent>
               <ChannelByValueSelector
                 channel={layer.visualChannels.size}
