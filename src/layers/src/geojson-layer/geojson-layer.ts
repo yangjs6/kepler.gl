@@ -49,6 +49,7 @@ import {
 import {KeplerTable} from '@kepler.gl/table';
 import {DataContainerInterface, ArrowDataContainer} from '@kepler.gl/utils';
 import {FilterArrowExtension} from '@kepler.gl/deckgl-layers';
+import { WidthUnits } from '@deck.gl/core/lib/layer';
 
 const SUPPORTED_ANALYZER_TYPES = {
   [DATA_TYPES.GEOMETRY]: true,
@@ -142,7 +143,7 @@ export type GeoJsonLayerVisConfig = {
   opacity: number;
   strokeOpacity: number;
   thickness: number;
-  widthUnit: string;
+  widthUnit: WidthUnits;
   strokeColor: RGBColor;
   colorRange: ColorRange;
   strokeColorRange: ColorRange;
