@@ -178,6 +178,17 @@ export type VisConfigColorRange = VisConfig & {
   defaultValue: ColorRange;
 };
 
+
+export type VisConfigString = VisConfig & {
+  type: 'string';
+  defaultValue: string;
+};
+
+export type VisConfigStringMap = VisConfig & {
+  type: 'string-map-select';
+  defaultValue: StringMap;
+};
+
 export type LayerVisConfigSettings = {
   thickness: VisConfigNumber;
   widthUnit: VisConfigSelection;
@@ -211,6 +222,9 @@ export type LayerVisConfigSettings = {
   'hi-precision': VisConfigBoolean;
   enable3d: VisConfigBoolean;
   stroked: VisConfigBoolean;
+  customIcon: VisConfigBoolean;
+  iconUrl: VisConfigString;
+  iconMap: VisConfigStringMap;
   zoomLimited: VisConfigBoolean;
   minZoom: VisConfigNumber;
   maxZoom: VisConfigNumber;

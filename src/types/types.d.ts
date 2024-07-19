@@ -33,3 +33,8 @@ export type ProcessorResult = {
   cols?: any[];
   metadata?: any;
 } | null;
+
+export type StringMap = {
+  keys: string[];
+  values: string[];
+};
