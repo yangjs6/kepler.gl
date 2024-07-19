@@ -84,7 +84,7 @@ export default class EnhancedLineLayer extends LineLayer<
   }
 
   initializeState() {
-    super.initializeState(undefined);
+    super.initializeState();
     const {attributeManager} = this.state;
     attributeManager.addInstanced({
       instanceTargetColors: {

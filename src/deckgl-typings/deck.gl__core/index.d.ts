@@ -1131,7 +1131,7 @@ declare module '@deck.gl/core/lib/layer' {
     nullPickingColor(): RGBColor;
     encodePickingColor(i: any, target?: any[]): RGBColor;
     decodePickingColor(color: RGBColor): number;
-    initializeState(params: any): void;
+    initializeState(): void;
     getShaders(shaders: any): any;
     shouldUpdateState({ oldProps, props, context, changeFlags }: UpdateStateInfo<P>): any;
     updateState({ oldProps, props, context, changeFlags }: UpdateStateInfo<P>): void;
@@ -1207,7 +1207,7 @@ declare module '@deck.gl/core/lib/composite-layer' {
     get isComposite(): boolean;
     get isLoaded(): any;
     getSubLayers(): any;
-    initializeState(params?: any): void;
+    initializeState(): void;
     setState(updateObject: any): void;
     renderLayers(): any;
     filterSubLayer({

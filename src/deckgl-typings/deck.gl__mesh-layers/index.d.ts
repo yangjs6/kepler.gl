@@ -86,7 +86,7 @@ declare module '@deck.gl/mesh-layers/simple-mesh-layer/simple-mesh-layer' {
     P
   > {
     getShaders(): any;
-    initializeState(params: any): void;
+    initializeState(): void;
     finalizeState(): void;
     draw({ uniforms }: { uniforms: any }): void;
     getModel(mesh: any): any;
@@ -139,7 +139,7 @@ declare module '@deck.gl/mesh-layers/scenegraph-layer/scenegraph-layer' {
     P
   > {
     constructor(props: ScenegraphLayerProps<D>);
-    initializeState(params: any): void;
+    initializeState(): void;
     finalizeState(): void;
     _updateScenegraph(props: any): void;
     _applyAllAttributes(scenegraph: any): void;

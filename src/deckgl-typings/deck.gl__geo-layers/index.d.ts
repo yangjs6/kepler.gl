@@ -225,7 +225,7 @@ declare module '@deck.gl/geo-layers/tile-layer/tile-layer' {
   }
   export default class TileLayer<D, P extends TileLayerProps<D> = TileLayerProps<D>> extends CompositeLayer<D, P> {
     constructor(...props: TileLayerProps<D>[]);
-    initializeState(params: any): void;
+    initializeState(): void;
     get isLoaded(): any;
     _updateTileset(): void;
     _onTileLoad(tile: any): void;
@@ -362,7 +362,7 @@ declare module '@deck.gl/geo-layers/tile-3d-layer/tile-3d-layer' {
     P
   > {
     constructor(...props: Tile3DLayerProps<D>[]);
-    initializeState(params: any): void;
+    initializeState(): void;
     _loadTileset(tilesetUrl: any): Promise<void>;
     _onTileLoad(tileHeader: any): void;
     _onTileUnload(tileHeader: any): void;
