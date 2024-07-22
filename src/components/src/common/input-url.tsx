@@ -18,7 +18,7 @@ export default class InputUrl extends Component<InputUrlProps> {
 
   state = {
     websiteUrl: "",
-    isValid: false
+    isValid: true
   };
 
 
@@ -51,7 +51,7 @@ export default class InputUrl extends Component<InputUrlProps> {
         <form>
           <input
             type="text"
-            value={this.state.websiteUrl}
+            value={this.props.value}
             onChange={this.changeUrl}
           />
           {!this.state.isValid && (
