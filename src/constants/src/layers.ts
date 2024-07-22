@@ -23,6 +23,7 @@ export const PROPERTY_GROUPS = keyMirror({
   height: null,
   angle: null,
   zoom: null,
+  icon: null,
   // for heatmap aggregation
   cell: null,
   precision: null,
@@ -405,7 +406,27 @@ export const LAYER_VIS_CONFIGS: LayerVisConfigSettings = {
     property: 'enable3d',
     description: 'layerVisConfigs.heightDescription'
   },
-  
+  customIcon: {
+    type: 'boolean',
+    label: 'layerVisConfigs.customIcon',
+    defaultValue: false,
+    group: PROPERTY_GROUPS.icon,
+    property: 'customIcon'
+  },
+  iconUrl: {
+    type: 'string',
+    label: 'layerVisConfigs.iconUrl',
+    defaultValue: '',
+    group: PROPERTY_GROUPS.icon,
+    property: 'iconUrl'
+  },
+  iconMap: {
+    type: 'string-map-select',
+    label: 'layerVisConfigs.iconMap',
+    defaultValue: {keys: [], values: []},
+    group: PROPERTY_GROUPS.icon,
+    property: 'iconMap'
+  },
   zoomLimited: {
     type: 'boolean',
     label: 'layerVisConfigs.zoomLimited',

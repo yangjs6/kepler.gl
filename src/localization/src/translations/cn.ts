@@ -120,6 +120,9 @@ export default {
       '图层更新时发生错误： {errorMessage}. 请确保输入数据的格式正确。'
   },
   layerVisConfigs: {
+    customIcon: '自定义图标',
+    iconUrl: '图标 URL',
+    iconMap: '图标映射',
     angle: '角度',
     widthUnit: '宽度单位',
     strokeWidth: '线条宽度',

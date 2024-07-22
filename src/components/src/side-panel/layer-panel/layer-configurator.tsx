@@ -38,6 +38,8 @@ import {Layer, LayerBaseConfig, VisualChannel, AggregationLayer} from '@kepler.g
 import {NestedPartial, LayerVisConfig, ColorUI, Field} from '@kepler.gl/types';
 import {toggleModal, ActionHandler} from '@kepler.gl/actions';
 import {Datasets} from '@kepler.gl/table';
+import InputUrl from '../../common/input-url';
+import StringMapConfig from './string-map-config';
 
 type LayerConfiguratorProps = {
   layer: Layer;
@@ -224,6 +226,43 @@ export default function LayerConfiguratorFactory(
               </ConfigGroupCollapsibleContent>
             </LayerConfigGroup>
           ) : null}
+
+          {/* icon config */}
+          {layer.type === LAYER_TYPES.icon ? (
+          <LayerConfigGroup          
+            {...layer.visConfigSettings.customIcon}
+            {...visConfiguratorProps}
+            label="layerVisConfigs.customIcon"
+            collapsible
+          >
+            
+            <PanelLabel>
+              <FormattedMessage id="layerVisConfigs.iconUrl" />
+            </PanelLabel>
+            {/* <LayerConfigGroup label={'layer.3DModel'} collapsible> */}
+              <InputUrl
+                value={layer.config.visConfig.iconUrl}
+                onChange={url => {
+                    visConfiguratorProps.onChange({iconUrl: url});
+                }}
+              />
+            </LayerConfigGroup>
+          ) : null}
+          
+
+          {layer.type === LAYER_TYPES.icon ? (          
+            
+          <LayerConfigGroup          
+            {...visConfiguratorProps}
+            label="layerVisConfigs.iconMap"
+          >            
+            <StringMapConfig
+              keyValues={layer.config.visConfig.iconMap}
+              setStringMap={ c => {visConfiguratorProps.onChange({iconMap: c})}}
+            />
+            </LayerConfigGroup>
+          ) : null}
+
 
           {/* Radius */}
           <LayerConfigGroup label={'layer.radius'} collapsible>

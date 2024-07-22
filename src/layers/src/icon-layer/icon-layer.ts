@@ -7,7 +7,7 @@ import GL from '@luma.gl/constants';
 
 import {SvgIconLayer} from '@kepler.gl/deckgl-layers';
 import IconLayerIcon from './icon-layer-icon';
-import {ICON_FIELDS, KEPLER_UNFOLDED_BUCKET, ColorRange} from '@kepler.gl/constants';
+import {ICON_FIELDS, KEPLER_UNFOLDED_BUCKET, ColorRange, CHANNEL_SCALES} from '@kepler.gl/constants';
 import IconInfoModalFactory from './icon-info-modal';
 import Layer, {LayerBaseConfig, LayerBaseConfigPartial, LayerColumn} from '../base-layer';
 import {assignPointPairToLayerColumn} from '../layer-utils';
@@ -21,8 +21,13 @@ import {
   VisConfigColorRange,
   VisConfigNumber,
   VisConfigRange,
-  Merge
+  Merge,
+  StringMap,
+  VisConfigString,
+  VisConfigStringMap
 } from '@kepler.gl/types';
+
+import {IconLayer as DeckIconLayer} from '@deck.gl/layers';
 
 export type IconLayerColumnsConfig = {
   lat: LayerColumn;
@@ -39,6 +44,10 @@ export type IconLayerVisConfigSettings = {
   opacity: VisConfigNumber;
   colorRange: VisConfigColorRange;
   radiusRange: VisConfigRange;
+  
+  customIcon: VisConfigBoolean;
+  iconUrl: VisConfigString;
+  iconMap: VisConfigStringMap;
 };
 
 export type IconLayerVisConfig = {
@@ -47,6 +56,10 @@ export type IconLayerVisConfig = {
   opacity: number;
   colorRange: ColorRange;
   radiusRange: [number, number];
+  
+  customIcon: boolean;
+  iconUrl: string;
+  iconMap: StringMap;
 };
 
 export type IconLayerConfig = Merge<
@@ -80,12 +93,18 @@ export const pointVisConfigs: {
   opacity: 'opacity';
   colorRange: 'colorRange';
   radiusRange: 'radiusRange';
+  customIcon: 'customIcon';
+  iconUrl: 'iconUrl';
+  iconMap: 'iconMap';
 } = {
   radius: 'radius',
   fixedRadius: 'fixedRadius',
   opacity: 'opacity',
   colorRange: 'colorRange',
-  radiusRange: 'radiusRange'
+  radiusRange: 'radiusRange',
+  customIcon: 'customIcon',
+  iconUrl: 'iconUrl',
+  iconMap: 'iconMap'
 };
 
 function flatterIconPositions(icon) {
@@ -163,6 +182,20 @@ export default class IconLayer extends Layer {
 
   get visualChannels() {
     return {
+      icon: {
+        property: 'iconUrl',
+        field: 'iconMap',
+        scale: 'iconScale',
+        domain: 'iconDomain',
+        range: 'iconRange',
+        key: 'icon',
+        fixed: 'fixedIcon',
+        channelScaleType: CHANNEL_SCALES.size,
+        accessor: 'getIcon',
+        condition: config => config.visConfig.customIcon,
+        nullValue: '',
+        getAttributeValue: () => d => d.properties.icon || ''
+      },
       color: {
         ...super.visualChannels.color,
         accessor: 'getFillColor',
@@ -255,9 +288,41 @@ export default class IconLayer extends Layer {
     return {props};
   }
 
+  getDataUpdateTriggers({filteredIndex, gpuFilter, id}: KeplerTable): any {
+    const {columns} = this.config;
+
+    const {iconMap} = this.config.visConfig;
+
+    const updateTriggers = {
+      getData: {
+        datasetId: id,
+        columns,
+        filteredIndex,
+        iconMap,
+        ...gpuFilter.filterValueUpdateTriggers
+      },
+      getMeta: {datasetId: id, columns}
+    };
+
+    return updateTriggers;
+  }
+
   calculateDataAttribute({dataContainer, filteredIndex}: KeplerTable, getPosition) {
     const getIcon = this.getIconAccessor(dataContainer);
     const data: IconLayerData[] = [];
+
+    
+    const cMap = new Map();
+    let useMap = false;
+    if(this.config.visConfig.iconMap && this.config.visConfig.iconMap.keys && this.config.visConfig.iconMap.values) {
+      const mappingCount = Math.max(this.config.visConfig.iconMap.keys.length, this.config.visConfig.iconMap.values.length);
+      for(let i = 0; i < mappingCount; i++){
+        const key = this.config.visConfig.iconMap.keys[i];
+        const value = this.config.visConfig.iconMap.values[i];
+        cMap.set(key, value);
+        useMap = true;
+      }
+    }
 
     for (let i = 0; i < filteredIndex.length; i++) {
       const index = filteredIndex[i];
@@ -268,10 +333,20 @@ export default class IconLayer extends Layer {
       // if doesn't have point lat or lng, do not add the point
       // deck.gl can't handle position = null
       if (pos.every(Number.isFinite) && typeof icon === 'string') {
-        data.push({
-          index,
-          icon
-        });
+        if(useMap){
+          if(cMap.has(icon)){
+            data.push({
+              index,
+              icon: cMap.get(icon)
+            });
+          }
+        }
+        else{
+          data.push({
+            index,
+            icon
+          });
+        }
       }
     }
 
@@ -325,6 +400,7 @@ export default class IconLayer extends Layer {
     };
 
     const updateTriggers = {
+      getIcon: this.config.visConfig.iconMap,
       getPosition: this.config.columns,
       getFilterValue: gpuFilter.filterValueUpdateTriggers,
       ...this.getVisualChannelUpdateTriggers()
@@ -362,7 +438,53 @@ export default class IconLayer extends Layer {
       cullFace: GL.FRONT
     };
 
-    return !this.iconGeometry
+    // this.config.visConfig.iconUrl valid
+    const useCustomIcon = this.config.visConfig.customIcon
+      && this.config.visConfig.iconUrl !== undefined 
+      && this.config.visConfig.iconUrl !== "";
+
+    return useCustomIcon ? [
+        new DeckIconLayer({
+          
+          ...defaultLayerProps,
+          ...brushingProps,
+          ...layerProps,
+          ...data,
+          parameters,
+
+          id: this.id + '-icon',
+          getSize: this.config.visConfig.radius,
+          getColor: this.config.color,
+          getIcon: d => d.icon,
+          iconAtlas: this.config.visConfig.iconUrl + '.png',
+          iconMapping: this.config.visConfig.iconUrl + '.json'
+
+        }),
+
+      // hover layer
+      ...(hoveredObject
+        ? [
+            new DeckIconLayer({
+              ...this.getDefaultHoverLayerProps(),
+              ...layerProps,
+              visible: defaultLayerProps.visible,
+              data: [hoveredObject],
+              parameters,
+              
+              getPosition: data.getPosition,
+              getSize: this.config.visConfig.radius,
+              getColor: this.config.highlightColor,
+              getIcon: data.getIcon,
+              iconAtlas: this.config.visConfig.iconUrl + '.png',
+              iconMapping: this.config.visConfig.iconUrl + '.json'
+            })
+          ]
+        : []),
+
+      // text label layer
+      ...labelLayers
+    ] :
+    ( !this.iconGeometry
       ? []
       : [
           new SvgIconLayer({
@@ -398,6 +520,7 @@ export default class IconLayer extends Layer {
 
           // text label layer
           ...labelLayers
-        ];
+        ]
+    );
   }
 }

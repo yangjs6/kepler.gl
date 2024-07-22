@@ -120,6 +120,9 @@ export default {
       'An error occurred during layer update: {errorMessage}. Make sure the format of the input data is valid.'
   },
   layerVisConfigs: {
+    customIcon: 'Custom Icon',
+    iconUrl: 'Icon URL',
+    iconMap: 'Icon Map',
     angle: 'Angle',
     widthUnit: 'Width Unit',
     strokeWidth: 'Stroke Width (Pixels)',
